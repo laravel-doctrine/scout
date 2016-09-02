@@ -84,6 +84,24 @@ class SearchableRepository extends EntityRepository
     }
 
     /**
+     * Make specific entities searchable
+     * @param Collection $entities
+     */
+    public function makeEntitiesSearchable(Collection $entities)
+    {
+        $this->searchableUsing()->update($entities);
+    }
+
+    /**
+     * Remove specific searchable entities
+     * @param Collection $entities
+     */
+    public function removeSearchableEntities(Collection $entities)
+    {
+        $this->searchableUsing()->delete($entities);
+    }
+
+    /**
      * @param  int      $count
      * @param  callable $callback
      * @return bool

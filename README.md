@@ -6,6 +6,22 @@
 ]
 ```
 
+```
+'events'     => [
+    'listeners'   => [],
+    'subscribers' => [
+        LaravelDoctrine\Scout\Subscribers\SearachableSubscriber::class
+    ]
+],
+```
+
+```php
+class Post implements LaravelDoctrine\Scout\Searchable
+{
+    use LaravelDoctrine\Scout\Indexable;
+}
+```
+
 To index all records of a certain entity:
 
 ```
