@@ -2,7 +2,6 @@
 
 namespace LaravelDoctrine\Scout;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
@@ -47,7 +46,7 @@ class Builder extends \Laravel\Scout\Builder
      * Create a new search builder instance.
      *
      * @param EntityRepository $repository
-     * @param  string          $query
+     * @param string           $query
      */
     public function __construct(EntityRepository $repository, $query)
     {
@@ -118,9 +117,9 @@ class Builder extends \Laravel\Scout\Builder
     /**
      * Paginate the given query into a simple paginator.
      *
-     * @param  int      $perPage
-     * @param  string   $pageName
-     * @param  int|null $page
+     * @param  int                                        $perPage
+     * @param  string                                     $pageName
+     * @param  int|null                                   $page
      * @return \Illuminate\Contracts\Pagination\Paginator
      */
     public function paginate($perPage = 15, $pageName = 'page', $page = null)

@@ -2,13 +2,32 @@
 
 namespace LaravelDoctrine\Scout;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Illuminate\Support\Collection;
 use Laravel\Scout\EngineManager;
 use Laravel\Scout\Events\ModelsImported;
 
 class SearchableRepository extends EntityRepository
 {
+    /**
+     * @var EngineManager
+     */
+    protected $engine;
+
+    /**
+     * @param EntityManagerInterface $em     The EntityManager to use.
+     * @param ClassMetadata          $class  The class descriptor.
+     * @param EngineManager          $engine The search engine manager
+     */
+    public function __construct($em, ClassMetadata $class, EngineManager $engine)
+    {
+        parent::__construct($em, $class);
+
+        $this->engine = $engine;
+    }
+
     /**
      * @param $query
      * @return Builder
@@ -33,7 +52,7 @@ class SearchableRepository extends EntityRepository
      */
     public function searchableUsing()
     {
-        return app(EngineManager::class)->engine();
+        return $this->engine->engine();
     }
 
     /**
@@ -71,7 +90,7 @@ class SearchableRepository extends EntityRepository
     private function chunk($count, callable $callback)
     {
         $qb    = $this->createQueryBuilder('s');
-        $first = 1;
+        $first = 0;
 
         $results = $qb
             ->getQuery()
