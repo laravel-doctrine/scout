@@ -2,7 +2,10 @@
 
 namespace LaravelDoctrine\Scout;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
 use Laravel\Scout\EngineManager;
 
 class Builder extends \Laravel\Scout\Builder
@@ -44,7 +47,7 @@ class Builder extends \Laravel\Scout\Builder
      * Create a new search builder instance.
      *
      * @param EntityRepository $repository
-     * @param string           $query
+     * @param  string          $query
      */
     public function __construct(EntityRepository $repository, $query)
     {
@@ -112,32 +115,32 @@ class Builder extends \Laravel\Scout\Builder
         return $this->engine()->get($this);
     }
 
-    ///**
-    // * Paginate the given query into a simple paginator.
-    // *
-    // * @param  int      $perPage
-    // * @param  string   $pageName
-    // * @param  int|null $page
-    // * @return \Illuminate\Contracts\Pagination\Paginator
-    // */
-    //public function paginate($perPage = 15, $pageName = 'page', $page = null)
-    //{
-    //    $engine = $this->engine();
-    //
-    //    $page = $page ?: Paginator::resolveCurrentPage($pageName);
-    //
-    //    $results = Collection::make($engine->map(
-    //        $rawResults = $engine->paginate($this, $perPage, $page), $this->model
-    //    ));
-    //
-    //    $paginator = (new Paginator($results, $perPage, $page, [
-    //        'path'     => Paginator::resolveCurrentPath(),
-    //        'pageName' => $pageName,
-    //    ]));
-    //
-    //    return $paginator->appends('query', $this->query)
-    //                     ->hasMorePagesWhen(($results->count() / $perPage) > $page);
-    //}
+    /**
+     * Paginate the given query into a simple paginator.
+     *
+     * @param  int      $perPage
+     * @param  string   $pageName
+     * @param  int|null $page
+     * @return \Illuminate\Contracts\Pagination\Paginator
+     */
+    public function paginate($perPage = 15, $pageName = 'page', $page = null)
+    {
+        $engine = $this->engine();
+
+        $page = $page ?: Paginator::resolveCurrentPage($pageName);
+
+        $results = Collection::make($engine->map(
+            $rawResults = $engine->paginate($this, $perPage, $page), $this->model
+        ));
+
+        $paginator = (new Paginator($results, $perPage, $page, [
+            'path'     => Paginator::resolveCurrentPath(),
+            'pageName' => $pageName,
+        ]));
+
+        return $paginator->appends('query', $this->query)
+                         ->hasMorePagesWhen(($results->count() / $perPage) > $page);
+    }
 
     /**
      * Get the engine that should handle the query.
