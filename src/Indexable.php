@@ -10,7 +10,7 @@ trait Indexable
     /**
      * @var ClassMetadata
      */
-    private $classMetaData;
+    protected $classMetaData;
 
     /**
      * Get primary key value

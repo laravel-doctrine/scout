@@ -5,6 +5,7 @@ namespace LaravelDoctrine\Scout\Console;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Events\Dispatcher;
+use Laravel\Scout\EngineManager;
 use Laravel\Scout\Events\ModelsImported;
 use LaravelDoctrine\Scout\SearchableRepository;
 
@@ -40,14 +41,13 @@ class ImportCommand extends Command
         if (!$repository instanceof SearchableRepository) {
             $repository = new SearchableRepository(
                 $em,
-                $em->getClassMetadata($class)
+                $em->getClassMetadata($class),
+                $this->getLaravel()->make(EngineManager::class)
             );
         }
 
         $events->listen(ModelsImported::class, function ($event) use ($class) {
-            $key = $event->models->last()->getKey();
-
-            $this->line('<comment>Imported [' . $class . '] models up to ID:</comment> ' . $key);
+            $this->line('<comment>Imported [' . $class . '] models up to ID:</comment> ' . $event->models->last()->getKey());
         });
 
         $repository->makeAllSearchable();
