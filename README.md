@@ -2,12 +2,11 @@
 
 <img src="https://cloud.githubusercontent.com/assets/7728097/12726966/cf009822-c91a-11e5-8f19-63ce1d77e8b2.jpg"/>
 
-[![GitHub release](https://img.shields.io/github/release/laravel-doctrine/orm.svg?style=flat-square)](https://packagist.org/packages/laravel-doctrine/orm)
-[![Travis](https://img.shields.io/travis/laravel-doctrine/orm.svg?style=flat-square)](https://travis-ci.org/laravel-doctrine/orm)
-[![StyleCI](https://styleci.io/repos/39036008/shield)](https://styleci.io/repos/39036008)
-[![Scrutinizer](https://img.shields.io/scrutinizer/g/laravel-doctrine/orm.svg?style=flat-square)](https://github.com/laravel-doctrine/orm)
-[![Packagist](https://img.shields.io/packagist/dm/laravel-doctrine/orm.svg?style=flat-square)](https://packagist.org/packages/laravel-doctrine/orm)
-[![Packagist](https://img.shields.io/packagist/dt/laravel-doctrine/orm.svg?style=flat-square)](https://packagist.org/packages/laravel-doctrine/orm)
+[![GitHub release](https://img.shields.io/github/release/laravel-doctrine/scout.svg?style=flat-square)](https://packagist.org/packages/laravel-doctrine/scout)
+[![Travis](https://img.shields.io/travis/laravel-doctrine/scout.svg?style=flat-square)](https://travis-ci.org/laravel-doctrine/scout)
+[![StyleCI](https://styleci.io/repos/66964312/shield)](https://styleci.io/repos/66964312)
+[![Packagist](https://img.shields.io/packagist/dm/laravel-doctrine/scout.svg?style=flat-square)](https://packagist.org/packages/laravel-doctrine/scout)
+[![Packagist](https://img.shields.io/packagist/dt/laravel-doctrine/scout.svg?style=flat-square)](https://packagist.org/packages/laravel-doctrine/scout)
 
 *A drop-in Doctrine ORM 2 implementation for Laravel Scout*
 
@@ -46,4 +45,4 @@ php artisan vendor:publish --tag="config"
 
 ## License
 
-This package is licensed under the [MIT license](https://github.com/laravel-doctrine/orm/blob/master/LICENSE).
+This package is licensed under the [MIT license](https://github.com/laravel-doctrine/scout/blob/master/LICENSE).
