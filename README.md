@@ -1,6 +1,6 @@
 # Laravel Doctrine Scout
 
-<img src="https://cloud.githubusercontent.com/assets/7728097/12726966/cf009822-c91a-11e5-8f19-63ce1d77e8b2.jpg"/>
+<img src="https://cloud.githubusercontent.com/assets/7728097/18224341/32631f7e-71d2-11e6-9092-e97a647c9a8b.jpg"/>
 
 [![GitHub release](https://img.shields.io/github/release/laravel-doctrine/scout.svg?style=flat-square)](https://packagist.org/packages/laravel-doctrine/scout)
 [![Travis](https://img.shields.io/travis/laravel-doctrine/scout.svg?style=flat-square)](https://travis-ci.org/laravel-doctrine/scout)
