@@ -18,6 +18,11 @@ interface Searchable
     public function searchableAs();
 
     /**
+     * @param string $as
+     */
+    public function setSearchableAs($as);
+
+    /**
      * @return string
      */
     public function toSearchableArray();

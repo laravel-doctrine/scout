@@ -146,6 +146,7 @@ class SearchableSubscriber implements EventSubscriber
         }
 
         $object->setClassMetaData($cmd);
+        $object->setSearchableAs($repository->searchableAs());
 
         return $repository;
     }

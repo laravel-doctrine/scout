@@ -71,7 +71,8 @@ class SearchableRepository extends EntityRepository
     {
         $this->chunk(100, function (Collection $models) {
 
-            $models = $models->map(function ($model) {
+            $models = $models->map(function (Searchable $model) {
+                $model->setSearchableAs($this->searchableAs());
                 $model->setClassMetaData($this->getClassMetadata());
 
                 return $model;

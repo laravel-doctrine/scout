@@ -13,6 +13,11 @@ trait Indexable
     protected $classMetaData;
 
     /**
+     * @var string
+     */
+    protected $searchableAs;
+
+    /**
      * Get primary key value
      * @return int
      */
@@ -26,7 +31,15 @@ trait Indexable
      */
     public function searchableAs()
     {
-        return $this->classMetaData->getTableName();
+        return $this->searchableAs;
+    }
+
+    /**
+     * @param string $as
+     */
+    public function setSearchableAs($as)
+    {
+        $this->searchableAs = $as;
     }
 
     /**
