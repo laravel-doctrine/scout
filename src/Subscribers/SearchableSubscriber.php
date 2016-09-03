@@ -12,7 +12,7 @@ use Laravel\Scout\EngineManager;
 use LaravelDoctrine\Scout\Searchable;
 use LaravelDoctrine\Scout\SearchableRepository;
 
-class SearachableSubscriber implements EventSubscriber
+class SearchableSubscriber implements EventSubscriber
 {
     /**
      * @var array
@@ -23,6 +23,19 @@ class SearachableSubscriber implements EventSubscriber
      * @var array
      */
     private $deleteable = [];
+
+    /**
+     * @var EngineManager
+     */
+    private $engine;
+
+    /**
+     * @param EngineManager $engine
+     */
+    public function __construct(EngineManager $engine)
+    {
+        $this->engine = $engine;
+    }
 
     /**
      * @return array
@@ -128,7 +141,7 @@ class SearachableSubscriber implements EventSubscriber
             $repository = new SearchableRepository(
                 $em,
                 $cmd,
-                app(EngineManager::class)
+                $this->engine
             );
         }
 
