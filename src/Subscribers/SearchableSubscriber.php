@@ -9,6 +9,7 @@ use Doctrine\ORM\Event\PostFlushEventArgs;
 use Doctrine\ORM\Events;
 use Illuminate\Support\Collection;
 use Laravel\Scout\EngineManager;
+use LaravelDoctrine\Scout\Jobs\MakeSearchable;
 use LaravelDoctrine\Scout\Searchable;
 use LaravelDoctrine\Scout\SearchableRepository;
 
@@ -114,9 +115,14 @@ class SearchableSubscriber implements EventSubscriber
      */
     private function indexEntity(EntityManagerInterface $em, Searchable $object)
     {
-        $repository = $this->getRepository($em, $object);
+        if (! config('scout.queue')) {
+            $repository = $this->getRepository($em, $object);
 
-        $repository->makeEntitiesSearchable(new Collection([$object]));
+            return $repository->makeEntitiesSearchable(new Collection([$object]));
+        }
+
+        dispatch((new MakeSearchable($object))
+            ->onConnection($object->syncWithSearchUsing()));
     }
 
     /**
