@@ -31,11 +31,4 @@ interface Searchable
      * @param ClassMetadata $classMetadata
      */
     public function setClassMetaData(ClassMetadata $classMetadata);
-
-    /**
-     * Get the queue connection that should be used when syncing.
-     *
-     * @return string
-     */
-    public function syncWithSearchUsing();
 }

@@ -12,6 +12,7 @@ use Laravel\Scout\EngineManager;
 use LaravelDoctrine\Scout\Jobs\MakeSearchable;
 use LaravelDoctrine\Scout\Searchable;
 use LaravelDoctrine\Scout\SearchableRepository;
+use Illuminate\Contracts\Bus\Dispatcher as LaravelBusDispatcher;
 
 class SearchableSubscriber implements EventSubscriber
 {
@@ -31,11 +32,25 @@ class SearchableSubscriber implements EventSubscriber
     private $engine;
 
     /**
-     * @param EngineManager $engine
+     * @var LaravelBusDispatcher
      */
-    public function __construct(EngineManager $engine)
+    private $dispatcher;
+
+    /**
+     * @var array
+     */
+    private $scoutConfig;
+
+    /**
+     * @param EngineManager        $engine
+     * @param LaravelBusDispatcher $dispatcher
+     * @param array                $scoutConfig
+     */
+    public function __construct(EngineManager $engine, LaravelBusDispatcher $dispatcher, array $scoutConfig)
     {
         $this->engine = $engine;
+        $this->dispatcher = $dispatcher;
+        $this->scoutConfig = $scoutConfig;
     }
 
     /**
@@ -57,6 +72,10 @@ class SearchableSubscriber implements EventSubscriber
     public function postFlush(PostFlushEventArgs $args)
     {
         foreach ($this->indexable as $event) {
+            if (method_exists($event, 'isDeleted') && $event->isDeleted()) {
+                continue;
+            }
+
             $this->indexEntity($args->getEntityManager(), $event);
         }
 
@@ -115,14 +134,13 @@ class SearchableSubscriber implements EventSubscriber
      */
     private function indexEntity(EntityManagerInterface $em, Searchable $object)
     {
-        if (! config('scout.queue')) {
+        if (! $this->scoutConfig['queue']) {
             $repository = $this->getRepository($em, $object);
 
-            return $repository->makeEntitiesSearchable(new Collection([$object]));
+            $repository->makeEntitiesSearchable(new Collection([$object]));
         }
 
-        dispatch((new MakeSearchable($object))
-            ->onConnection($object->syncWithSearchUsing()));
+        $this->dispatcher->dispatch(new MakeSearchable($object));
     }
 
     /**
