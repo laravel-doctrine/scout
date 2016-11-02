@@ -134,7 +134,7 @@ class SearchableSubscriber implements EventSubscriber
      */
     private function indexEntity(EntityManagerInterface $em, Searchable $object)
     {
-        if (! $this->scoutConfig['queue']) {
+        if (!$this->scoutConfig['queue']) {
             $repository = $this->getRepository($em, $object);
 
             $repository->makeEntitiesSearchable(new Collection([$object]));
