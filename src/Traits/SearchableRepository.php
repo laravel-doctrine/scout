@@ -40,21 +40,7 @@ trait SearchableRepository
      */
     public function searchableUsing()
     {
-        return $this->getEngineInstance()->engine();
-    }
-
-    /**
-     * Returns instance of EngineManager.
-     *
-     * @return EngineManager
-     */
-    protected function getEngineInstance()
-    {
-        if ($this->engine) {
-            return $this->engine;
-        }
-
-        return $this->engine = app(EngineManager::class);
+        return $this->getEngineManager()->engine();
     }
 
     /**
@@ -145,6 +131,13 @@ trait SearchableRepository
             $key => $values
         ]));
     }
+
+    /**
+     * Returns instance of EngineManager.
+     *
+     * @return EngineManager
+     */
+    abstract protected function getEngineManager();
 
     /**
      * Creates a new ClassMetaData object for this entity.

@@ -49,18 +49,18 @@ class MakeSearchable implements ShouldQueue
     }
 
     /**
-     * @param  EntityManagerInterface $em
-     * @param  Searchable             $object
-     * @param EngineManager           $engine
+     * @param EntityManagerInterface $em
+     * @param Searchable             $object
+     * @param EngineManager          $engine
      * @return SearchableRepository
      */
     private function getRepository(EntityManagerInterface $em, Searchable $object, EngineManager $engine)
     {
-        $class = get_class($object);
-        $cmd = $em->getClassMetadata($class);
+        $class      = get_class($object);
+        $cmd        = $em->getClassMetadata($class);
         $repository = $em->getRepository($class);
 
-        if (! $repository instanceof SearchableRepository) {
+        if (!$repository instanceof SearchableRepository) {
             $repository = new SearchableRepository(
                 $em,
                 $cmd,

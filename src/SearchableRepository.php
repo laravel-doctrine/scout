@@ -23,4 +23,14 @@ class SearchableRepository extends EntityRepository
 
         $this->engine = $engine;
     }
+
+    /**
+     * Returns instance of EngineManager.
+     *
+     * @return EngineManager
+     */
+    protected function getEngineManager()
+    {
+        return $this->engine;
+    }
 }

@@ -57,14 +57,4 @@ trait Indexable
     {
         $this->classMetaData = $classMetadata;
     }
-
-    /**
-     * Get the queue connection that should be used when syncing.
-     *
-     * @return string
-     */
-    public function syncWithSearchUsing()
-    {
-        return config('queue.default');
-    }
 }
