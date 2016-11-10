@@ -72,10 +72,6 @@ class SearchableSubscriber implements EventSubscriber
     public function postFlush(PostFlushEventArgs $args)
     {
         foreach ($this->indexable as $event) {
-            if (method_exists($event, 'isDeleted') && $event->isDeleted()) {
-                continue;
-            }
-
             $this->indexEntity($args->getEntityManager(), $event);
         }
 
@@ -133,7 +129,7 @@ class SearchableSubscriber implements EventSubscriber
         if (!$this->scoutConfig['queue']) {
             $repository = $this->getRepository($em, $object);
 
-            $repository->makeEntitiesSearchable(new Collection([$object]));
+            return $repository->makeEntitiesSearchable(new Collection([$object]));
         }
 
         $this->dispatcher->dispatch(new MakeSearchable($object));
