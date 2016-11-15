@@ -59,9 +59,13 @@ class SearchableSubscriber implements EventSubscriber
             $this->indexEntity($args->getEntityManager(), $event);
         }
 
+        $this->indexable = [];
+
         foreach ($this->deleteable as $event) {
             $this->removeEntity($args->getEntityManager(), $event);
         }
+
+        $this->deleteable = [];
     }
 
     /**
