@@ -30,12 +30,13 @@ class SearchableRepository extends EntityRepository
     }
 
     /**
-     * @param $query
+     * @param      $query
+     * @param \Closure|null $callback
      * @return Builder
      */
-    public function search($query)
+    public function search($query, $callback = null)
     {
-        return new Builder($this, $query);
+        return new Builder($this, $query, $callback);
     }
 
     /**
@@ -62,6 +63,14 @@ class SearchableRepository extends EntityRepository
     public function getKeyName()
     {
         return $this->getClassMetadata()->getIdentifierFieldNames()[0];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getQualifiedKeyName()
+    {
+        return $this->getKeyName();
     }
 
     /**
