@@ -7,12 +7,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PostFlushEventArgs;
 use Doctrine\ORM\Events;
+use Illuminate\Contracts\Bus\Dispatcher as LaravelBusDispatcher;
 use Illuminate\Support\Collection;
 use Laravel\Scout\EngineManager;
 use LaravelDoctrine\Scout\Jobs\MakeSearchable;
 use LaravelDoctrine\Scout\Searchable;
 use LaravelDoctrine\Scout\SearchableRepository;
-use Illuminate\Contracts\Bus\Dispatcher as LaravelBusDispatcher;
 
 class SearchableSubscriber implements EventSubscriber
 {
@@ -48,8 +48,8 @@ class SearchableSubscriber implements EventSubscriber
      */
     public function __construct(EngineManager $engine, LaravelBusDispatcher $dispatcher, array $scoutConfig)
     {
-        $this->engine = $engine;
-        $this->dispatcher = $dispatcher;
+        $this->engine      = $engine;
+        $this->dispatcher  = $dispatcher;
         $this->scoutConfig = $scoutConfig;
     }
 

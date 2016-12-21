@@ -25,7 +25,7 @@ class MakeSearchable implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param  Searchable $entity
+     * @param Searchable $entity
      */
     public function __construct(Searchable $entity)
     {
@@ -33,8 +33,8 @@ class MakeSearchable implements ShouldQueue
     }
 
     /**
-     * @param EngineManager          $engine
-     * @param EntityManagerInterface $em
+     * @param  EngineManager          $engine
+     * @param  EntityManagerInterface $em
      * @return bool|void
      */
     public function handle(EngineManager $engine, EntityManagerInterface $em)
@@ -49,9 +49,9 @@ class MakeSearchable implements ShouldQueue
     }
 
     /**
-     * @param EntityManagerInterface $em
-     * @param Searchable             $object
-     * @param EngineManager          $engine
+     * @param  EntityManagerInterface $em
+     * @param  Searchable             $object
+     * @param  EngineManager          $engine
      * @return SearchableRepository
      */
     private function getRepository(EntityManagerInterface $em, Searchable $object, EngineManager $engine)
