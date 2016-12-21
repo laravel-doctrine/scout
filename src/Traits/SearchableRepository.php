@@ -52,6 +52,14 @@ trait SearchableRepository
     }
 
     /**
+     * @return mixed
+     */
+    public function getQualifiedKeyName()
+    {
+        return $this->getKeyName();
+    }
+
+    /**
      * Make all searchable
      */
     public function makeAllSearchable()
