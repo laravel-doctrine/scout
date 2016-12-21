@@ -30,8 +30,8 @@ class SearchableRepository extends EntityRepository
     }
 
     /**
-     * @param      $query
-     * @param \Closure|null $callback
+     * @param                $query
+     * @param  \Closure|null $callback
      * @return Builder
      */
     public function search($query, $callback = null)
