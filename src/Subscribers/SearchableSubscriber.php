@@ -7,8 +7,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PostFlushEventArgs;
 use Doctrine\ORM\Events;
+use Illuminate\Contracts\Bus\Dispatcher as LaravelBusDispatcher;
 use Illuminate\Support\Collection;
 use Laravel\Scout\EngineManager;
+use LaravelDoctrine\Scout\Jobs\MakeSearchable;
 use LaravelDoctrine\Scout\Searchable;
 use LaravelDoctrine\Scout\SearchableRepository;
 
@@ -30,11 +32,25 @@ class SearchableSubscriber implements EventSubscriber
     private $engine;
 
     /**
-     * @param EngineManager $engine
+     * @var LaravelBusDispatcher
      */
-    public function __construct(EngineManager $engine)
+    private $dispatcher;
+
+    /**
+     * @var array
+     */
+    private $scoutConfig;
+
+    /**
+     * @param EngineManager        $engine
+     * @param LaravelBusDispatcher $dispatcher
+     * @param array                $scoutConfig
+     */
+    public function __construct(EngineManager $engine, LaravelBusDispatcher $dispatcher, array $scoutConfig)
     {
-        $this->engine = $engine;
+        $this->engine      = $engine;
+        $this->dispatcher  = $dispatcher;
+        $this->scoutConfig = $scoutConfig;
     }
 
     /**
@@ -114,9 +130,13 @@ class SearchableSubscriber implements EventSubscriber
      */
     private function indexEntity(EntityManagerInterface $em, Searchable $object)
     {
-        $repository = $this->getRepository($em, $object);
+        if (!$this->scoutConfig['queue']) {
+            $repository = $this->getRepository($em, $object);
 
-        $repository->makeEntitiesSearchable(new Collection([$object]));
+            return $repository->makeEntitiesSearchable(new Collection([$object]));
+        }
+
+        $this->dispatcher->dispatch(new MakeSearchable($object));
     }
 
     /**
