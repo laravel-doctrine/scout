@@ -35,8 +35,8 @@ class SearchableExtension implements Extension
      */
     public function __construct(EngineManager $engine, LaravelBusDispatcher $dispatcher, ConfigRepository $config)
     {
-        $this->engine = $engine;
-        $this->dispatcher = $dispatcher;
+        $this->engine      = $engine;
+        $this->dispatcher  = $dispatcher;
         $this->scoutConfig = $config['scout'];
     }
 
