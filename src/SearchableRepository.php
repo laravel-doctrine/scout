@@ -130,6 +130,8 @@ class SearchableRepository extends EntityRepository
                 return false;
             }
 
+            $this->getEntityManager()->clear();
+
             $first += $count;
 
             $results = $qb
