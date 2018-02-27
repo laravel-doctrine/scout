@@ -47,10 +47,17 @@ class ImportCommand extends Command
         }
 
         $events->listen(ModelsImported::class, function ($event) use ($class) {
-            $this->line('<comment>Imported [' . $class . '] models up to ID:</comment> ' . $event->models->last()->getKey());
+            $this->line(sprintf(
+                '<comment>Imported %d [%s] models up to ID: %s</comment>',
+                $event->models->count(),
+                $class,
+                $event->models->last()->getKey()
+            ));
         });
 
         $repository->makeAllSearchable();
+
+        $events->forget(ModelsImported::class);
 
         $this->info('All [' . $class . '] records have been imported.');
     }
