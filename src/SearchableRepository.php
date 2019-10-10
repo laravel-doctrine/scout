@@ -9,6 +9,9 @@ use Laravel\Scout\Builder;
 use Laravel\Scout\EngineManager;
 use Laravel\Scout\Events\ModelsImported;
 
+// Added this from  https://github.com/stephanmh/scout
+// it's the latests addition to laravel-doctrine/scout
+// I could quickly find. Hope you don't mind Stephanmh
 class SearchableRepository extends EntityRepository
 {
     /**
