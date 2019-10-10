@@ -1,5 +1,4 @@
-<?php
-
+<?php 
 namespace LaravelDoctrine\Scout;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,19 +15,17 @@ class SearchableRepository extends EntityRepository
      * @var EngineManager
      */
     protected $engine;
-
     /**
      * @param EntityManagerInterface $em     The EntityManager to use.
      * @param ClassMetadata          $class  The class descriptor.
-     * @param EngineManager          $engine The search engine manager
+     *
+     * @param EngineManager $engine The search engine manager
      */
-    public function __construct($em, ClassMetadata $class, EngineManager $engine)
+    public function __construct($em, ClassMetadata $class)
     {
         parent::__construct($em, $class);
-
-        $this->engine = $engine;
+        $this->engine = app()->make(EngineManager::class);
     }
-
     /**
      * @param                $query
      * @param  \Closure|null $callback
@@ -38,7 +35,6 @@ class SearchableRepository extends EntityRepository
     {
         return new Builder($this, $query, $callback);
     }
-
     /**
      * @return string
      */
@@ -46,7 +42,6 @@ class SearchableRepository extends EntityRepository
     {
         return $this->getClassMetadata()->getTableName();
     }
-
     /**
      * Get the Scout engine for the model.
      *
@@ -56,7 +51,6 @@ class SearchableRepository extends EntityRepository
     {
         return $this->engine->engine();
     }
-
     /**
      * @return mixed
      */
@@ -64,7 +58,6 @@ class SearchableRepository extends EntityRepository
     {
         return $this->getClassMetadata()->getIdentifierFieldNames()[0];
     }
-
     /**
      * @return mixed
      */
@@ -72,7 +65,6 @@ class SearchableRepository extends EntityRepository
     {
         return $this->getKeyName();
     }
-
     /**
      * Make all searchable
      */
@@ -82,16 +74,12 @@ class SearchableRepository extends EntityRepository
             $models = $models->map(function (Searchable $model) {
                 $model->setSearchableAs($this->searchableAs());
                 $model->setClassMetaData($this->getClassMetadata());
-
                 return $model;
             });
-
             $this->searchableUsing()->update($models);
-
             event(new ModelsImported($models));
         });
     }
-
     /**
      * Make specific entities searchable
      * @param Collection $entities
@@ -100,7 +88,6 @@ class SearchableRepository extends EntityRepository
     {
         $this->searchableUsing()->update($entities);
     }
-
     /**
      * Remove specific searchable entities
      * @param Collection $entities
@@ -109,7 +96,6 @@ class SearchableRepository extends EntityRepository
     {
         $this->searchableUsing()->delete($entities);
     }
-
     /**
      * @param  int      $count
      * @param  callable $callback
@@ -119,31 +105,24 @@ class SearchableRepository extends EntityRepository
     {
         $qb    = $this->createQueryBuilder('s');
         $first = 0;
-
         $results = $qb
             ->getQuery()
             ->setMaxResults($count)
             ->getResult();
-
         while (count($results) > 0) {
             if (call_user_func($callback, collect($results)) === false) {
                 return false;
             }
-
             $this->getEntityManager()->clear();
-
             $first += $count;
-
             $results = $qb
                 ->getQuery()
                 ->setMaxResults($count)
                 ->setFirstResult($first)
                 ->getResult();
         }
-
         return true;
     }
-
     /**
      * @param  string       $key
      * @param  array        $values
