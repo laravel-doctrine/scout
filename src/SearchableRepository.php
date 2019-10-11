@@ -9,26 +9,33 @@ use Laravel\Scout\Builder;
 use Laravel\Scout\EngineManager;
 use Laravel\Scout\Events\ModelsImported;
 
-// Added this from  https://github.com/stephanmh/scout
-// it's the latests addition to laravel-doctrine/scout
-// I could quickly find. Hope you don't mind Stephanmh
 class SearchableRepository extends EntityRepository
 {
     /**
      * @var EngineManager
      */
     protected $engine;
+    
     /**
      * @param EntityManagerInterface $em     The EntityManager to use.
      * @param ClassMetadata          $class  The class descriptor.
      *
      * @param EngineManager $engine The search engine manager
      */
-    public function __construct($em, ClassMetadata $class)
+    public function __construct($em, ClassMetadata $class, EngineManager $engine)
     {
         parent::__construct($em, $class);
-        $this->engine = app()->make(EngineManager::class);
+        $this->engine = $engine;
     }
+    
+    /**
+     * @return $this
+     */
+    public function newQuery()
+    {
+        return $this;
+    }
+    
     /**
      * @param                $query
      * @param  \Closure|null $callback
