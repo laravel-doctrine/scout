@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 namespace LaravelDoctrine\Scout;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,10 +16,10 @@ class SearchableRepository extends EntityRepository
      * @var EngineManager
      */
     protected $engine;
-    
+
     /**
-     * @param EntityManagerInterface $em     The EntityManager to use.
-     * @param ClassMetadata          $class  The class descriptor.
+     * @param EntityManagerInterface $em    The EntityManager to use.
+     * @param ClassMetadata          $class The class descriptor.
      *
      * @param EngineManager $engine The search engine manager
      */
@@ -27,7 +28,7 @@ class SearchableRepository extends EntityRepository
         parent::__construct($em, $class);
         $this->engine = $engine;
     }
-    
+
     /**
      * @return $this
      */
@@ -35,7 +36,7 @@ class SearchableRepository extends EntityRepository
     {
         return $this;
     }
-    
+
     /**
      * @param                $query
      * @param  \Closure|null $callback
@@ -84,6 +85,7 @@ class SearchableRepository extends EntityRepository
             $models = $models->map(function (Searchable $model) {
                 $model->setSearchableAs($this->searchableAs());
                 $model->setClassMetaData($this->getClassMetadata());
+
                 return $model;
             });
             $this->searchableUsing()->update($models);
@@ -113,8 +115,8 @@ class SearchableRepository extends EntityRepository
      */
     private function chunk($count, callable $callback)
     {
-        $qb    = $this->createQueryBuilder('s');
-        $first = 0;
+        $qb      = $this->createQueryBuilder('s');
+        $first   = 0;
         $results = $qb
             ->getQuery()
             ->setMaxResults($count)
@@ -131,6 +133,7 @@ class SearchableRepository extends EntityRepository
                 ->setFirstResult($first)
                 ->getResult();
         }
+
         return true;
     }
     /**
