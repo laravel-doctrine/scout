@@ -2,7 +2,7 @@
 
 namespace LaravelDoctrine\Scout\Console;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Events\Dispatcher;
 use Laravel\Scout\EngineManager;
