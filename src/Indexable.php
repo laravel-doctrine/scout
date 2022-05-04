@@ -92,8 +92,8 @@ trait Indexable
     /**
      * Set a Scout related metadata.
      *
-     * @param  string  $key
-     * @param  mixed  $value
+     * @param  string    $key
+     * @param  mixed     $value
      * @return Indexable
      */
     public function withScoutMetadata($key, $value)
