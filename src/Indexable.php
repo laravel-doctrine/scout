@@ -18,12 +18,17 @@ trait Indexable
     protected $searchableAs;
 
     /**
+     * @var array
+     */
+    protected $scoutMetadata = [];
+
+    /**
      * Get primary key value
      * @return int
      */
     public function getKey()
     {
-        return $this->id;
+        return $this->{$this->getKeyName()};
     }
 
     /**
@@ -56,5 +61,45 @@ trait Indexable
     public function setClassMetaData(ClassMetadata $classMetadata)
     {
         $this->classMetaData = $classMetadata;
+    }
+
+    /**
+     * @return string
+     */
+    public function getKeyName()
+    {
+        return 'id';
+    }
+
+    /**
+     * @return int
+     */
+    public function getScoutKey()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Get all Scout related metadata.
+     *
+     * @return array
+     */
+    public function scoutMetadata()
+    {
+        return $this->scoutMetadata;
+    }
+
+    /**
+     * Set a Scout related metadata.
+     *
+     * @param  string    $key
+     * @param  mixed     $value
+     * @return Indexable
+     */
+    public function withScoutMetadata($key, $value)
+    {
+        $this->scoutMetadata[$key] = $value;
+
+        return $this;
     }
 }
